@@ -25,4 +25,5 @@
 #    under the License.
 ######################################################################
 
-exec @PYTHON@ "@abs_srcdir@"/svneditor.py "$@"
+# SVN_TEST_PYTHON set by svntest/main.py
+exec $SVN_TEST_PYTHON "$(dirname $0)/svneditor.py" "$@"
