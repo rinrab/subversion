@@ -81,6 +81,10 @@ jobs:
               libdbus-1-dev
               qtbase5-dev
               libsecret-1-dev
+          - name: MacOS
+            os: macos-latest
+            cmake_generator: Ninja
+            build_shared: ON
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -134,6 +138,10 @@ jobs:
           libsqlite3-dev
           ninja-build
           ${{ matrix.extra_packages }}
+
+      - name: Install dependecies (MacOS, Homebrew)
+        if: runner.os == 'macOS'
+        run: brew apr apr-util expat zlib sqlite
 
       - name: Use LF for Git checkout
         run: |
