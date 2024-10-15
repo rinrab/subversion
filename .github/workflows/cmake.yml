@@ -141,7 +141,7 @@ jobs:
 
       - name: Install dependecies (MacOS, Homebrew)
         if: runner.os == 'macOS'
-        run: brew apr apr-util expat zlib sqlite
+        run: brew install apr apr-util expat zlib sqlite
 
       - name: Use LF for Git checkout
         run: |
