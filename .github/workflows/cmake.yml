@@ -104,9 +104,15 @@ jobs:
           ls env: | foreach { "$($_.Name)=$($_.Value)" >> $env:GITHUB_ENV }
 
       - name: Prepare Enviroment (Linux)
-        if: runner.os == 'Windows'
+        if: runner.os == 'Linux'
         run: |
           # nothing yet
+
+      - name: Prepare Enviroment (MacOS)
+        if: runner.os == 'macOS'
+        run: |
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
 
       - name: Export GitHub Actions cache environment variables
         if: runner.os == 'Windows'
