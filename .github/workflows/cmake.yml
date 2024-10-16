@@ -85,6 +85,7 @@ jobs:
             os: macos-latest
             cmake_generator: Ninja
             build_shared: ON
+            run_tests: true
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
