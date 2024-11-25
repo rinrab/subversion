@@ -63,7 +63,7 @@ jobs:
             os: windows-latest
             build_shared: OFF
             cmake_generator: Ninja
-            vcpkg_triplet: x64-windows-static
+            vcpkg_triplet: x64-windows-static-md
             arch: x64
             run_tests: true
           - name: Linux, shared, with tests
