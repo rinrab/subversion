@@ -90,7 +90,7 @@ jobs:
         working-directory: serf-2
         run: |
           cmake -B out `
-            -DBUILD_SHARED_LIBS=${{ matrix.build_shared }}
+            -DBUILD_SHARED_LIBS=${{ matrix.build_shared }} `
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/installdir
           cmake --build out --config Release
           cmake --install out --config Release
