@@ -71,9 +71,6 @@ jobs:
             cmake_generator: Ninja
             build_shared: ON
             run_tests: true
-            extra_config_opts: >
-              -DSVN_ENABLE_AUTH_KWALLET=ON
-              -DSVN_ENABLE_AUTH_GNOME_KEYRING=ON
             extra_packages: >
               libkf5wallet-dev
               libkf5coreaddons-dev
@@ -81,6 +78,10 @@ jobs:
               libdbus-1-dev
               qtbase5-dev
               libsecret-1-dev
+          - name: Mac OS
+            os: macos-latest
+            build_shared: ON
+            cmake_generator: Ninja
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -134,6 +135,21 @@ jobs:
           zlib1g-dev
           libsqlite3-dev
           ninja-build
+          ${{ matrix.extra_packages }}
+
+      - name: Install dependencies (Mac OS, homebrew)
+        if: runner.os == 'macOS'
+        # there is no separate package for serf, so let's try install
+        # Subversion to eventually get it as well.
+        run: >
+          brew install
+          apr
+          apr-util
+          subversion
+          expat
+          zlib
+          sqlite
+          ninja
           ${{ matrix.extra_packages }}
 
       - name: Use LF for Git checkout
