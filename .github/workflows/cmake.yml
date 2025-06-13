@@ -150,6 +150,11 @@ jobs:
           ninja
           ${{ matrix.extra_packages }}
 
+      - name: Setup homebrew path
+        if: runner.os == 'macOS'
+        run: |
+          "CMAKE_PREFIX_PATH=/opt/homebrew/opt/subversion/libexec"  >> $env:GITHUB_ENV
+
       - name: Use LF for Git checkout
         run: |
           git config --global core.autocrlf false
