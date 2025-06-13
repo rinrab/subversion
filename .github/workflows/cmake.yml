@@ -140,14 +140,8 @@ jobs:
       - name: Install dependencies (Mac OS, homebrew)
         if: runner.os == 'macOS'
         run: >
-          brew reinstall
-          apr
-          apr-util
-          expat
-          zlib
-          sqlite
+          brew install
           subversion
-          ninja
           ${{ matrix.extra_packages }}
 
       - name: Setup homebrew path
