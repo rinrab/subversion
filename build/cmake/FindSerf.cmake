@@ -19,16 +19,22 @@
 # FindSerf.cmake -- CMake module for Serf library
 #
 
+include(GNUInstallDirs)
+
 find_path(Serf_INCLUDE_DIR
   NAMES serf.h
   PATH_SUFFIXES
     include
+    "${CMAKE_INSTALL_INCLUDEDIR}"
+    include/serf-2
+    "${CMAKE_INSTALL_INCLUDEDIR}/serf-2"
     include/serf-1
+    "${CMAKE_INSTALL_INCLUDEDIR}/serf-1"
 )
 
 find_library(Serf_LIBRARY
-  NAMES serf-1
-  PATH_SUFFIXES lib
+  NAMES serf-2 serf-1
+  PATH_SUFFIXES lib "${CMAKE_INSTALL_LIBDIR}"
 )
 
 mark_as_advanced(
@@ -71,15 +77,18 @@ set_target_properties(Serf::Serf PROPERTIES
 
 find_package(OpenSSL REQUIRED)
 find_package(APR REQUIRED)
-find_package(APRUtil REQUIRED)
 find_package(ZLIB REQUIRED)
 
 target_link_libraries(Serf::Serf INTERFACE
   apr::apr
-  apr::aprutil
   OpenSSL::SSL
   ZLIB::ZLIB
 )
+
+if(APR_VERSION VERSION_LESS 2.0.0)
+  find_package(APRUtil REQUIRED)
+  target_link_libraries(Serf::Serf INTERFACE apr::aprutil)
+endif()
 
 if (WIN32)
   target_link_libraries(Serf::Serf INTERFACE

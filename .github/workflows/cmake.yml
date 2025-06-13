@@ -19,10 +19,12 @@
 # cmake.yml -- Configuration for CMake GitHub Action workflow.
 #
 
-name: Build and Test Subversion with CMake
+name: CMake
 
 on:
   push:
+    branches: ["*"]
+  pull_request:
     branches: ["*"]
 
 concurrency:
@@ -168,6 +170,7 @@ jobs:
           -DSVN_ENABLE_RA_SERF=ON
           -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/installdir
           -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }}
+          -DSVN_TEST_CONFIGURE_FOR_PARALLEL=ON
           ${{ matrix.extra_config_opts }}
 
       - name: Build CMake
@@ -180,9 +183,18 @@ jobs:
         id: run_all_tests
         if: matrix.run_tests
         working-directory: out
-        run: ctest --output-on-failure --verbose -C Release
+        run: ctest --output-on-failure --verbose -C Release --parallel 16
 
-      - name: Rerun failed tests
-        if: ${{ matrix.run_tests && failure() && steps.run_all_tests.conclusion == 'failure' }}
+      - name: Test shelf2
+        if: matrix.run_tests
         working-directory: out
-        run: ctest --output-on-failure --verbose -C Release --rerun-failed
+        env:
+          SVN_EXPERIMENTAL_COMMANDS: shelf2
+        run: ctest -R shelf2 --verbose -C Release
+
+      - name: Test shelf3
+        if: matrix.run_tests
+        working-directory: out
+        env:
+          SVN_EXPERIMENTAL_COMMANDS: shelf3
+        run: ctest -R shelf3 --verbose -C Release

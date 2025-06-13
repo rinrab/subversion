@@ -512,11 +512,7 @@ sub_main(int *exit_code,
         }
         break;
       case opt_depth:
-        err = svn_utf_cstring_to_utf8(&utf8_opt_arg, opt_arg, pool);
-        if (err)
-          return svn_error_createf(SVN_ERR_CL_ARG_PARSING_ERROR, err,
-                                   _("Error converting depth "
-                                     "from locale to UTF-8"));
+        SVN_ERR(svn_utf_cstring_to_utf8(&utf8_opt_arg, opt_arg, pool));
         opt_state.depth = svn_depth_from_word(utf8_opt_arg);
         if (opt_state.depth == svn_depth_unknown
             || opt_state.depth == svn_depth_exclude)
@@ -611,18 +607,8 @@ sub_main(int *exit_code,
       }
     }
 
-  /* The --non-interactive and --force-interactive options are mutually
-   * exclusive. */
-  if (opt_state.non_interactive && force_interactive)
-    {
-      return svn_error_create(SVN_ERR_CL_ARG_PARSING_ERROR, NULL,
-                              _("--non-interactive and --force-interactive "
-                                "are mutually exclusive"));
-    }
-  else
-    opt_state.non_interactive = !svn_cmdline__be_interactive(
-                                  opt_state.non_interactive,
-                                  force_interactive);
+  SVN_ERR(svn_cmdline__be_interactive(&opt_state.non_interactive,
+                                      force_interactive));
 
   /* --password-from-stdin can only be used with --non-interactive */
   if (read_pass_from_stdin && !opt_state.non_interactive)
