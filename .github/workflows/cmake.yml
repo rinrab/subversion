@@ -139,13 +139,10 @@ jobs:
 
       - name: Install dependencies (Mac OS, homebrew)
         if: runner.os == 'macOS'
-        # there is no separate package for serf, so let's try install
-        # Subversion to eventually get it as well.
         run: >
           brew install
           apr
           apr-util
-          subversion
           expat
           zlib
           sqlite
