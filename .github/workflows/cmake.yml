@@ -146,6 +146,7 @@ jobs:
           expat
           zlib
           sqlite
+          subversion
           ninja
           ${{ matrix.extra_packages }}
 
