@@ -154,6 +154,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           "CMAKE_PREFIX_PATH=/opt/homebrew/opt/subversion/libexec"  >> $env:GITHUB_ENV
+          ls /opt/homebrew/opt/subversion/libexec
 
       - name: Use LF for Git checkout
         run: |
