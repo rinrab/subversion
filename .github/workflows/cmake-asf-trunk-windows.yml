@@ -99,9 +99,11 @@ jobs:
           path: svn
 
       - name: gen-make
+        working-directory: svn
         run: python ./gen-make.py -t cmake
 
       - name: Configure Subversion
+        working-directory: svn
         run: >
           cmake -B out
           -DBUILD_SHARED_LIBS=${{ matrix.build_shared }}
@@ -110,7 +112,9 @@ jobs:
           -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }}
 
       - name: Build CMake
+        working-directory: svn
         run: cmake --build out --config Release
 
       - name: Install
+        working-directory: svn
         run: cmake --install out --config Release
