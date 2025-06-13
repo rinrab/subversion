@@ -146,7 +146,13 @@ jobs:
         run: |
           brew install apr apr-util expat sqlite ninja subversion
           ls -r /opt/homebrew/opt/subversion/libexec/serf
-          "PKG_CONFIG_PATH=/opt/homebrew/opt:/opt/homebrew/opt/subversion/libexec/serf"  >> $env:GITHUB_ENV
+
+          export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/apr/lib/pkgconfig"
+          export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/apr-util/lib/pkgconfig"
+          export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/expat/lib/pkgconfig"
+          export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/subversion/libexec/serf/lib/pkgconfig"
+
+          "PKG_CONFIG_PATH=$PKG_CONFIG_PATH"  >> $env:GITHUB_ENV
 
       - name: Use LF for Git checkout
         run: |
