@@ -153,8 +153,8 @@ jobs:
       - name: Setup homebrew path
         if: runner.os == 'macOS'
         run: |
-          "CMAKE_PREFIX_PATH=/opt/homebrew/opt/subversion/libexec"  >> $env:GITHUB_ENV
-          ls /opt/homebrew/opt/subversion/libexec
+          "CMAKE_PREFIX_PATH=/opt/homebrew/opt/subversion/libexec/serf"  >> $env:GITHUB_ENV
+          ls /opt/homebrew/opt/subversion/libexec/serf
 
       - name: Use LF for Git checkout
         run: |
