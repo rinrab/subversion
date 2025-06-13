@@ -140,7 +140,7 @@ jobs:
       - name: Install dependencies (Mac OS, homebrew)
         if: runner.os == 'macOS'
         run: >
-          brew install
+          brew reinstall
           apr
           apr-util
           expat
