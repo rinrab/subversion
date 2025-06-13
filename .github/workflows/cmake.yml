@@ -145,6 +145,7 @@ jobs:
         # hack to get serf installed, since there is no separate package.
         run: |
           brew install apr apr-util expat sqlite ninja subversion
+          ls -r /opt/homebrew/opt/subversion/libexec/serf
           "PKG_CONFIG_PATH=/opt/homebrew/opt:/opt/homebrew/opt/subversion/libexec/serf"  >> $env:GITHUB_ENV
 
       - name: Use LF for Git checkout
