@@ -48,7 +48,6 @@ jobs:
 
     env:
       CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
-      CMAKE_INSTALL_PREFIX: ${{ github.workspace }}/installdir
 
     steps:
       - name: Prepare Environment (Windows)
@@ -77,7 +76,8 @@ jobs:
         working-directory: apr-2
         run: |
           cmake -B out `
-            -DBUILD_SHARED_LIBS=${{ matrix.build_shared }}
+            -DBUILD_SHARED_LIBS=${{ matrix.build_shared }} `
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/installdir
           cmake --build out --config Release
           cmake --install out --config Release
 
@@ -91,6 +91,7 @@ jobs:
         run: |
           cmake -B out `
             -DBUILD_SHARED_LIBS=${{ matrix.build_shared }}
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/installdir
           cmake --build out --config Release
           cmake --install out --config Release
 
@@ -107,6 +108,7 @@ jobs:
         run: >
           cmake -B out
           -DBUILD_SHARED_LIBS=${{ matrix.build_shared }}
+          -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/installdir
           -DSVN_ENABLE_TESTS=ON
           -DSVN_ENABLE_RA_SERF=ON
           -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }}
